@@ -1,0 +1,34 @@
+ExpirationAuthenticationHandler
+
+AuthenticationHandler per shibboleth-idp-2.3.* che mostra un messaggio di errore diverso se un utente ha la password scaduta.
+
+Funziona con le versioni di shibboleth-idp che includono vt-ldap-3.3.4
+
+Ipotizza che il server ldap sia OpenLDAP, che usa come attributo per le informazioni della scadenza della password i campi pwdChangedTime sull'utente ed il campo pwdMaxAge sulla policy che e' referenziata dal campo pwdPolicySubentry dell'utente.
+
+Non prende in considerazione:
+1) che ci sia una policy di default comune a tutto l'albero utenti
+2) che a un utente sia associata una policy senza scadenza password
+
+Capire come funziona
+
+Creare un file ldap.properties nella radice del progetto con queste info:
+edu.vt.middleware.ldap.ldapUrl=ldap://ldap2.unimore.it
+edu.vt.middleware.ldap.baseDn=ou=people,dc=unimore,dc=it
+edu.vt.middleware.ldap.bindDn=cn=idp,ou=agents,dc=unimore,dc=it
+edu.vt.middleware.ldap.bindCredential=test
+edu.vt.middleware.ldap.tls=true
+edu.vt.middleware.ldap.auth.userField=uid
+
+Modificare il file dei test per includere un proprio utente con la password scaduta.
+Lanciare:
+mvn -Dtest=ExpirationAuthenticationHandlerTest test
+
+Installare
+lanciare mvn jar:jar
+copiare il jar risultante nella directory lib del sorgente si shibboleth, re-installarlo, modificare i file
+logging.xml
+login.config
+login.jsp
+sulla base dei file analoghi nella cartella examples
+
