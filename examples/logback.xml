@@ -1,0 +1,48 @@
+<configuration scan="true" scanPeriod="30 seconds">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>expiration_handler.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>expiration-handler-%d{yyyy-MM-dd}.log</FileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%date %msg%n</Pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+
+  <appender name="SYSLOG"
+    class="ch.qos.logback.classic.net.SyslogAppender">
+    <SyslogHost>localhost</SyslogHost>
+    <Facility>DAEMON</Facility>
+    <SuffixPattern>[%logger] %msg</SuffixPattern>
+  </appender>
+
+  
+
+  <logger name="edu.vt.middleware.ldap" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="FILE" /> 
+    <appender-ref ref="SYSLOG" />
+  </logger>
+
+  <logger name="it.unimore.sia.ExpirationAuthenticationHandler" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="FILE" /> 
+    <appender-ref ref="SYSLOG" />
+  </logger>
+
+  <logger name="it.unimore.cesia" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="FILE" /> 
+    <appender-ref ref="SYSLOG" />
+  </logger>
+
+
+  <root level="ERROR">
+<!--
+    <appender-ref ref="FILE" />
+    <appender-ref ref="STDOUT" /> -->
+    <appender-ref ref="SYSLOG" />
+  </root>
+</configuration>

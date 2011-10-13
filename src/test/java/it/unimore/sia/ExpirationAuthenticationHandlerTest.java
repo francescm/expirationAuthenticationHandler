@@ -35,12 +35,12 @@ public class ExpirationAuthenticationHandlerTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Not a good test, because some real date is needed
      */
     public void testAuthenticate()
     {
-	AuthenticationCriteria ac = new AuthenticationCriteria("uid=162938,ou=people,dc=unimore,dc=it");
-	ac.setCredential("zh4je379");
+		AuthenticationCriteria ac = new AuthenticationCriteria("uid=162938,ou=people,dc=unimore,dc=it");
+		ac.setCredential("test");
 	try {
 	    
 	    LdapConfig lc = LdapConfig.createFromProperties(new FileInputStream("ldap.properties"));	
